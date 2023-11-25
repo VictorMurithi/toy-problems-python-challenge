@@ -5,29 +5,35 @@
 #consonants are all characters except aeiou 
 
 def check_highest_consonant_value(string):
-    lowercase_string = string.lower()
+    # Define the vowels and create a dictionary to map consonants to their values
+    vowels = "aeiou"
+    consonant_values = {chr(i): i - ord('a') + 1 for i in range(ord('a'), ord('z') + 1)}
+
+    # Function to calculate the value of a consonant substring
+    def calculate_consonant_value(substring):
+        return sum(consonant_values[char] for char in substring)
+
+    # Initialize variables for maximum and current values
     max_value = 0
-    current_value = 0
+    current_substring = ""
 
-    for char in lowercase_string:
-        # Check if the character is a consonant
-        if char.isalpha() and char not in "aeiou":
-            # Calculate the value of the consonant based on its position in the alphabet
-            value = ord(char) - ord('a') + 1
-
-            # Accumulate the value for the current substring
-            current_value += value
+    # Iterate through each character in the input string
+    for char in string:
+        # Check if the character is not a vowel (i.e., it's a consonant)
+        if char not in vowels:
+            # Append the consonant to the current substring
+            current_substring += char
         else:
-            # If a non-consonant is encountered, update the maximum value and reset the current value
-            max_value = max(max_value, current_value)
-            current_value = 0
+            # If a vowel is encountered, update the maximum value and reset the current substring
+            max_value = max(max_value, calculate_consonant_value(current_substring))
+            current_substring = ""
 
-    # Update the maximum value for the last substring (if any)
-    max_value = max(max_value, current_value)
+    # Check the last substring if the word ends with a consonant
+    max_value = max(max_value, calculate_consonant_value(current_substring))
 
+    # Return the overall maximum value of consonant substrings
     return max_value
 
 # Example
-input_string = "abczd"
-result = check_highest_consonant_value(input_string)
+result = check_highest_consonant_value("zodiacs")
 print(result)
