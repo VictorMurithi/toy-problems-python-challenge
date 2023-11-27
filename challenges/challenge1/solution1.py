@@ -26,7 +26,7 @@ def change_time_format(time_string):
         hour = 00
 
     # Format the result as a string in the "HH:MM:AM/PM" format
-    result = f"{hour:02d}:{minute:02d} {period}"
+    result = f"{hour:02d}:{minute:02d}"
 
     # Return the formatted result
     return result
